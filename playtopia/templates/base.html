@@ -1,0 +1,116 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Store</title>
+    <link rel="stylesheet" href="{% static 'store/style/style.css' %}">
+    <link rel="stylesheet" href="{% static 'store/style/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="wrapperMain">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <ul class="nav">
+                <li><a href="#" class="catalogLink">Каталог</a></li>
+                <li><a href="#" class="reviewsLink">Отзывы</a></li>
+                <li><a href="#" class="galeryLink">Галерея</a></li>
+            </ul>
+            <div class="r-nav">
+                <div class="theme">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <button class="btnLogin">Войти</button>
+            </div>
+
+        </header>
+
+        {% block box %}
+        {% endblock %}
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer>
+            <div class="container">
+                <div class="logo">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div class="nav">
+                    <li><a href="#">Каталог</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                    <li><a href="#">Галерея</a></li>
+                    <li></li>
+                </div>
+                <div class="socials">
+                    <a href="https://vk.com"><i class="fa-brands fa-vk"></i></a>
+                    <a href="https://t.me"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <section class="popup">
+        <div class="wrapper">
+            <div class="icon-close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="form-box login">
+                <h2>Вход</h2>
+                <form action="#">
+                    <div class="input-box">
+                        <input type="email" required>
+                        <label>Почта</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" required>
+                        <label>Пароль</label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox">Запомнить</label>
+                        <a href="#">Забыли пароль?</a>
+                    </div>
+                    <button type="submit" class="btn">Войти</button>
+                    <div class="login-register">
+                        <p>Нет аккаунта? <a href="#" class="register-link">Зарегистрироваться</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-box register">
+                <h2>Регистрация</h2>
+                <form action="#">
+                    <div class="input-box">
+                        <input type="text" required>
+                        <label>Имя пользователя</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="email" required>
+                        <label>Почта</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" required>
+                        <label>Пароль</label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox">Я согласен с правилами и условиями</label>
+                    </div>
+                    <button type="submit" class="btn">Зарегистрироваться</button>
+                    <div class="login-register">
+                        <p>Есть аккаунт? <a href="#" class="login-link">Войти</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static 'store/js/main.js' %}"></script>
+</html>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block box %}
+<section class="box">
+    <div class="hero">
+        <video src="{% static 'store/media/video.mp4' %}" autoplay muted loop></video>
+        <h1>Games Store</h1>
+        <h3>Лучший выбор для истинных геймеров</h3>
+    </div>
+</section>
+{% endblock %}
