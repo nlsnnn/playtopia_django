@@ -34,6 +34,7 @@ class Order(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Игра')
     status = models.CharField(max_length=100, verbose_name='Статус заказа')
 
+
 class Cart(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Игра')

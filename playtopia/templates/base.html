@@ -15,12 +15,12 @@
     <div class="wrapperMain">
         <header>
             <div class="logo">
-                <i class="fa-solid fa-gamepad"></i>
+                <a href="{% url 'home' %}"><i class="fa-solid fa-gamepad"></i></a>
             </div>
             <ul class="nav">
-                <li><a href="#" class="catalogLink">Каталог</a></li>
-                <li><a href="#" class="reviewsLink">Отзывы</a></li>
-                <li><a href="#" class="galeryLink">Галерея</a></li>
+                <li><a href="{% url 'catalog' %}" class="catalogLink">Каталог</a></li>
+                <!-- <li><a href="#" class="reviewsLink">Отзывы</a></li>
+                <li><a href="#" class="galeryLink">Галерея</a></li> -->
             </ul>
             <div class="r-nav">
                 <div class="theme">
