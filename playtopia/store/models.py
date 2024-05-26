@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Product(models.Model):
@@ -15,10 +16,19 @@ class Product(models.Model):
     reviews = models.ForeignKey('Review', on_delete=models.SET_NULL, null=True, blank=True,
                                 related_name='product_reviews', verbose_name='Отзывы')
 
+    def get_absolute_url(self):
+        return reverse('game', kwargs={'game_slug': self.slug})
+
+    def __str__(self) -> str:
+        return self.title
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, db_index=True, verbose_name='Категория')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Review(models.Model):
