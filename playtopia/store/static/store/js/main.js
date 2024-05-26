@@ -44,32 +44,14 @@ function darkmode(){
     localStorage.setItem('darkmode', !wasDarkmode)
     wrapperMain.classList.toggle('dark-mode', !wasDarkmode)
   }
-  
+
 iconTheme.addEventListener('click', darkmode)
-  
+
 function onload() {
     wrapperMain.classList.toggle('dark-mode',localStorage.getItem('darkmode') == 'true')
 }
-  
+
 document.addEventListener('DOMContentLoaded', onload);
-
-
-// Фильтр каталога
-list.forEach((el) => {
-    el.addEventListener("click", (e)=>{
-        list.forEach((li)=>{
-            li.classList.remove("active");
-        })
-        e.target.classList.add("active");
-
-        cards.forEach((el2)=>{
-            el2.style.display = "none";
-        })
-        document.querySelectorAll(e.target.dataset.filter).forEach((li)=>{
-            li.style.display = "flex";
-        })
-    })
-})
 
 
 // Слайдер

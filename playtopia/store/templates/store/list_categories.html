@@ -1,9 +1,9 @@
 <div class="list">
     {% for cat in cats %}
     {% if cat.id == cat_selected %}
-    <a href="{{ cat.get_absolute_url }}"><li>{{ cat }}</li></a>
+    <li class="active">{{ cat }}</li>
     {% else %}
-    <a href="{{ cat.get_absolute_url }}"><li>{{ cat }}</li></a>
+    <a href="{% url 'category' cat.slug %}"><li>{{ cat }}</li></a>
     {% endif %}
     {% endfor %}
 </div>

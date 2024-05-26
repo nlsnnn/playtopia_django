@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.views import LoginView
 
-from .models import Product
+from .models import Product, Category
 
 
 class MainPage(TemplateView):
@@ -18,6 +18,21 @@ class GamesList(ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         return Product.objects.all()
+
+
+class CategoryGamesList(ListView):
+    template_name = 'store/catalog.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        cat = context['products'][0].category
+        context['cat_selected'] = cat.pk
+        context['title'] = cat.name
+        return context
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return Product.objects.filter(category__slug=self.kwargs['category_slug']).select_related('category')
 
 
 class ShowGame(DetailView):

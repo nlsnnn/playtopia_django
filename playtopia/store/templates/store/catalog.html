@@ -3,14 +3,12 @@
 
 {% block content %}
 <section class="catalog container">
+    {% if title %}
+    <h2>{{ title }}</h2>
+    {% else %}
     <h2>Каталог</h2>
-    {% show_categories %}
-    <!-- <div class="list">
-        <li data-filter=".All">Все</li>
-        <li data-filter=".Popular">Самые популярные</li>
-        <li data-filter=".Action">Экшн</li>
-        <li data-filter=".Strategy">Стратегии</li>
-    </div> -->
+    {% endif %}
+    {% show_categories cat_selected %}
     <div class="cards">
         {% for p in products %}
         <div class="card">
