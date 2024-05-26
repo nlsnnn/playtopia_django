@@ -3,15 +3,16 @@
 {% block content %}
 <section class="catalog container">
     <h2>Каталог</h2>
-    <div class="list">
+    <!-- <div class="list">
         <li data-filter=".All">Все</li>
         <li data-filter=".Popular">Самые популярные</li>
         <li data-filter=".Action">Экшн</li>
         <li data-filter=".Strategy">Стратегии</li>
-    </div>
+    </div> -->
     <div class="cards">
         {% for p in products %}
         <div class="card">
+            <a href="{% url 'game' p.slug %}">
             <div class="image">
                 {% if p.photo %}
                 <img src="{{ p.photo.url }}">
@@ -30,6 +31,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
         {% endfor %}
     </div>

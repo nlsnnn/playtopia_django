@@ -40,6 +40,7 @@ header{
     justify-content:space-between;
     color: #fff;
     padding: 35px 235px 0;
+    background-color: var(--b_black);
 }
 
 .logo i{
@@ -633,6 +634,18 @@ section.box {
     .card .image .description{
         width: 100%;
     }
+}
+
+
+/* Game */
+
+.game {
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    display: flex;
+    gap: 150px;
+    /* justify-content: space-between; */
 }
 
 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="game container">
+    <div class="left">
+        <h2>{{game.name}}</h2>
+        {% if game.photo %}
+        <img src="{{ game.photo.url }}">
+        {% else %}
+        <img src="/media/games/default.png" alt="">
+        {% endif %}
+    </div>
+    <div class="right">
+        <p>{{ game.description }}</p>
+        <span>{{ game.price }} Р</span>
+    </div>
+    {{ game.category.name }}
+
+
+</section>
+{% endblock %}
