@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load store_tags %}
 
 {% block content %}
 <section class="catalog container">
     <h2>Каталог</h2>
+    {% show_categories %}
     <!-- <div class="list">
         <li data-filter=".All">Все</li>
         <li data-filter=".Popular">Самые популярные</li>

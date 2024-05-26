@@ -1,0 +1,9 @@
+<div class="list">
+    {% for cat in cats %}
+    {% if cat.id == cat_selected %}
+    <a href="{{ cat.get_absolute_url }}"><li>{{ cat }}</li></a>
+    {% else %}
+    <a href="{{ cat.get_absolute_url }}"><li>{{ cat }}</li></a>
+    {% endif %}
+    {% endfor %}
+</div>

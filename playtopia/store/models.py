@@ -20,7 +20,7 @@ class Product(models.Model):
         return reverse('game', kwargs={'game_slug': self.slug})
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 
 class Category(models.Model):
@@ -28,7 +28,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 
 class Review(models.Model):

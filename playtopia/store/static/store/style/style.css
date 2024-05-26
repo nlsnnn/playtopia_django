@@ -438,6 +438,11 @@ section.box {
     margin-top: 20px;
 }
 
+.list a{
+    text-decoration: none;
+    color: var(--b_black);
+}
+
 .list li{
     position: relative;
     font-size: 24px;
@@ -1011,4 +1016,8 @@ header.black{
 .wrapperMain.dark-mode main {
     color: var(--b_white);
     background-color: #192a38;
+}
+
+.wrapperMain.dark-mode .list a{
+    color: var(--b_white);
 }
