@@ -8,7 +8,14 @@
     {% else %}
     <h2>Каталог</h2>
     {% endif %}
-    {% show_categories cat_selected %}
+    <div class="list">
+        {% if cat_selected == 0 %}
+        <li class="active">Все категории</li>
+        {% else %}
+        <li><a href="{% url 'catalog' %}">Все категории</a></li>
+        {% endif %}
+        {% show_categories cat_selected %}
+    </div>
     <div class="cards">
         {% for p in products %}
         <div class="card">
