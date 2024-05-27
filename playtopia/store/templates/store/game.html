@@ -15,6 +15,8 @@
         <span>{{ game.price }} Р</span>
     </div>
     <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
+    <a href="{% url 'edit' game.slug %}">Редактировать</a>
+    <a href="{% url 'delete' game.slug %}">Удалить</a>
 
 
 </section>
