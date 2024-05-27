@@ -48,3 +48,7 @@ class Order(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Игра')
+
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='playtopia/games')

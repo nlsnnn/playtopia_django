@@ -14,7 +14,7 @@
         <p>{{ game.description }}</p>
         <span>{{ game.price }} Р</span>
     </div>
-    {{ game.category.name }}
+    <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
 
 
 </section>

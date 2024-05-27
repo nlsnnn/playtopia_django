@@ -2,9 +2,11 @@ from typing import Any
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import TemplateView, ListView, DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.contrib.auth.views import LoginView
 
+from .forms import AddGameForm
 from .models import Product, Category
 
 
@@ -43,3 +45,10 @@ class ShowGame(DetailView):
 
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
         return get_object_or_404(Product, slug=self.kwargs[self.slug_url_kwarg])
+
+
+class AddGame(CreateView):
+    template_name = 'store/add_game.html'
+    form_class = AddGameForm
+    success_url = reverse_lazy('catalog')
+    model = Product
