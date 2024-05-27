@@ -24,6 +24,7 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls')),
+    path('auth/', include('users.urls', namespace='users'))
 ]
 
 if settings.DEBUG:
