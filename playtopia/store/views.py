@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import (TemplateView, ListView, DetailView,
                                   CreateView, UpdateView, DeleteView)
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .forms import AddGameForm
 from .models import Product, Category
@@ -49,11 +49,12 @@ class ShowGame(DetailView):
         return get_object_or_404(Product, slug=self.kwargs[self.slug_url_kwarg])
 
 
-class AddGame(LoginRequiredMixin, CreateView):
+class AddGame(PermissionRequiredMixin, CreateView):
     template_name = 'store/add_game.html'
     form_class = AddGameForm
     success_url = reverse_lazy('catalog')
     model = Product
+    permission_required = 'store.add_product'
 
 
 class UpdateGame(UpdateView):

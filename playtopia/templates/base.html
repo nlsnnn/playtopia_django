@@ -19,7 +19,9 @@
             </div>
             <ul class="nav">
                 <li><a href="{% url 'catalog' %}" class="catalogLink">Каталог</a></li>
+                {% if perms.store.add_product %}
                 <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
+                {% endif %}
                 <!-- <li><a href="#" class="reviewsLink">Отзывы</a></li>
                 <li><a href="#" class="galeryLink">Галерея</a></li> -->
             </ul>
