@@ -10,3 +10,11 @@ class LoginUserForm(AuthenticationForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'password']
+
+
+class ProfileUserForm(forms.ModelForm):
+    username = forms.CharField(disabled=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['photo', 'username', 'email', 'first_name', 'last_name']
