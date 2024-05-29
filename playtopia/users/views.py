@@ -3,10 +3,10 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import get_user_model
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 
-from .forms import LoginUserForm, ProfileUserForm
+from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm
 
 
 class LoginUser(LoginView):
@@ -29,3 +29,9 @@ class ProfileUser(UpdateView):
 
     def get_object(self, queryset: QuerySet[reverse_lazy] | None = ...) -> Model:
         return self.request.user
+
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'users/login.html'
+    success_url = reverse_lazy('users:login')

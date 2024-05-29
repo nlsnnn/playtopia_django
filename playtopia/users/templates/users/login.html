@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
-{% block auth %}
+{% block content %}
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Войти</button>
+    <button type="submit">Отправить</button>
+    <a href="{% url 'users:register' %}">Регистрация</a>
 </form>
 
 <!-- <section class="popup">
