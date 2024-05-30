@@ -1,6 +1,6 @@
 const wrapper = document.querySelector('.wrapper');
 const loginLink = document.querySelector('.login-link');
-const registerLink = document.querySelector('.register-link');
+// const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin');
 const iconClose = document.querySelector('.icon-close');
 const wrapperMain = document.querySelector('.wrapperMain');
@@ -14,28 +14,26 @@ let cards = document.querySelectorAll('.card');
 
 
 
-
-
 // Модальное окно авторизации и регистрации
-registerLink.addEventListener('click', ()=> {
-    wrapper.classList.add('active');
-})
+// registerLink.addEventListener('click', ()=> {
+//     wrapper.classList.add('active');
+// })
 
-loginLink.addEventListener('click', ()=>{
-    wrapper.classList.remove('active');
-})
+// loginLink.addEventListener('click', ()=>{
+//     wrapper.classList.remove('active');
+// })
 
-btnPopup.addEventListener('click', ()=>{
-    wrapper.classList.add('active-popup');
-    wrapperMain.classList.add('lock');
-    popup.classList.add('active');
-    console.log('OK')
-})
+// btnPopup.addEventListener('click', ()=>{
+//     wrapper.classList.add('active-popup');
+//     wrapperMain.classList.add('lock');
+//     popup.classList.add('active');
+//     console.log('OK')
+// })
 
-iconClose.addEventListener('click', ()=>{
-    wrapper.classList.remove('active-popup');
-    wrapperMain.classList.remove('lock');
-})
+// iconClose.addEventListener('click', ()=>{
+//     wrapper.classList.remove('active-popup');
+//     wrapperMain.classList.remove('lock');
+// })
 
 
 // Темная тема
@@ -43,6 +41,7 @@ function darkmode(){
     const wasDarkmode = localStorage.getItem('darkmode') == 'true'
     localStorage.setItem('darkmode', !wasDarkmode)
     wrapperMain.classList.toggle('dark-mode', !wasDarkmode)
+    console.log('LOL')
   }
 
 iconTheme.addEventListener('click', darkmode)
@@ -84,10 +83,10 @@ var swiper = new Swiper(".slide-content", {
 
 
 // Модальное окно для отзыва
-popupReviewBtn.addEventListener('click', ()=> {
-    popupReview.classList.add('open-popup');
-})
+// popupReviewBtn.addEventListener('click', ()=> {
+//     popupReview.classList.add('open-popup');
+// })
 
-popupReviewBtnClose.addEventListener('click', ()=>{
-    popupReview.classList.remove('open-popup');
-})
+// popupReviewBtnClose.addEventListener('click', ()=>{
+//     popupReview.classList.remove('open-popup');
+// })

@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{% static 'store/style/style.css' %}">
     <link rel="stylesheet" href="{% static 'store/style/swiper-bundle.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,6 +20,7 @@
             </div>
             <ul class="nav">
                 <li><a href="{% url 'catalog' %}" class="catalogLink">Каталог</a></li>
+                <li><a href="{% url 'cart:cart_list' %}">Корзина</a></li>
                 {% if perms.store.add_product %}
                 <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
                 {% endif %}

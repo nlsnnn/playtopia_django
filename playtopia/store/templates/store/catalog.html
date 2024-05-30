@@ -32,7 +32,9 @@
                         <div class="bottom">
                             <span>{{ p.price }} ₽</span>
                             <div class="cart">
-                                <i class="fa-solid fa-cart-shopping"></i>
+                                <button class="add-to-cart" data-product-id="{{ p.id }}">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -43,4 +45,30 @@
         {% endfor %}
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').on('click', function() {
+            var productId = $(this).data('product-id');
+            $.ajax({
+                url: '{% url "cart:add_to_cart" %}',
+                method: 'POST',
+                data: {
+                    'product_id': productId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Товар добавлен в корзину! Количество: ' + response.quantity);
+                    } else {
+                        alert('Ошибка при добавлении товара.');
+                    }
+                },
+                error: function() {
+                    alert('Произошла ошибка.');
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
