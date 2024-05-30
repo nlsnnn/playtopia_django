@@ -3,7 +3,17 @@
 {% block content %}
 
 <section class="cart-list container">
+    {% for p in products %}
+    <div class="card">
+        <img src="/media/games/default.png" alt="Not found">
+        <div class="content">
+            <h3>{{ p.name }}</h3>
+            <h2>{{ p.price }}</h2>
+        </div>
 
+    </div>
+    <hr>
+    {% endfor %}
 </section>
 
 {% endblock %}

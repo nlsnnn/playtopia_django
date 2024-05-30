@@ -8,6 +8,17 @@ from store.models import Cart, Product
 
 
 
+class CartProducts(ListView):
+    template_name = 'cart/products.html'
+    model = Cart
+    context_object_name = 'products'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        cart = Cart.objects.filter(user_id=self.request.user)
+        product_ids = cart.values_list('product_id', flat=True)
+        return Product.objects.filter(id__in=product_ids)
+
+
 def add_to_cart(request: HttpRequest):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
