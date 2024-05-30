@@ -11,12 +11,18 @@
         {% endif %}
     </div>
     <div class="right">
+        <h3>{{ game.price }} руб.</h3>
         <p>{{ game.description }}</p>
-        <span>{{ game.price }} Р</span>
+        <hr>
+        <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
     </div>
-    <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
-    <a href="{% url 'edit' game.slug %}">Редактировать</a>
-    <a href="{% url 'delete' game.slug %}">Удалить</a>
+
+    {% if perms.users.edit_product and perms.users.delete_product %}
+    <div class="admin">
+        <a href="{% url 'edit' game.slug %}">Редактировать</a>
+        <a href="{% url 'delete' game.slug %}">Удалить</a>
+    </div>
+    {% endif %}
 
 
 </section>

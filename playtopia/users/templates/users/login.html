@@ -2,12 +2,15 @@
 
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить</button>
-    <a href="{% url 'users:register' %}">Регистрация</a>
-</form>
+<div class="login container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+        <a href="{% url 'users:register' %}">Регистрация</a>
+    </form>
+</div>
+
 
 <!-- <section class="popup">
     <div class="wrapper">
