@@ -1101,3 +1101,10 @@ header.black{
 .wrapperMain.dark-mode .list a{
     color: var(--b_white);
 }
+
+
+/* cart */
+
+.cart-list i {
+    cursor: pointer;
+}

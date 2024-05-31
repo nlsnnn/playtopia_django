@@ -2,6 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
 from store.models import Cart, Product
@@ -19,6 +20,7 @@ class CartProducts(ListView):
         return Product.objects.filter(id__in=product_ids)
 
 
+
 def add_to_cart(request: HttpRequest):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -33,3 +35,14 @@ def add_to_cart(request: HttpRequest):
 
         return JsonResponse({'success': True, 'quantity': cart_item.quantity})
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+
+def delete_from_cart(request: HttpRequest):
+    if request.method ==  'POST':
+        product_id = request.POST.get('product_id')
+        cart_item = get_object_or_404(Cart, user_id=request.user,
+                                      product_id=product_id)
+        cart_item.delete()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})

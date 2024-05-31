@@ -3,17 +3,52 @@
 {% block content %}
 
 <section class="cart-list container">
+    {% if products %}
     {% for p in products %}
-    <div class="card">
+    <div class="card" id="product-{{ p.id }}">
         <img src="/media/games/default.png" alt="Not found">
         <div class="content">
             <h3>{{ p.name }}</h3>
             <h2>{{ p.price }}</h2>
-        </div>
+            <button class="delete-from-cart" data-product-id="{{ p.id }}">
+                <i class="fa-solid fa-trash"></i>
+            </button>
 
+        </div>
+        <hr>
     </div>
-    <hr>
     {% endfor %}
+    {% else %}
+    <h2>Товаров в корзине пока нет</h2>
+    {% endif %}
 </section>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-from-cart').on('click', function() {
+            var productId = $(this).data('product-id');
+            $.ajax({
+                url: "{% url 'cart:delete_from_cart' %}",
+                method: "POST",
+                data: {
+                    'product_id': productId,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                success: function(response) {
+                    if (response.success){
+                        alert('Товар убран!');
+                        $('#product-' + productId).remove();
+                    } else {
+                        alert('Ошибка при удалении товара с корзины');
+                    }
+                },
+                error: function() {
+                    alert('Произошла ошибка.');
+                }
+            });
+        });
+    });
+
+</script>
 
 {% endblock %}
