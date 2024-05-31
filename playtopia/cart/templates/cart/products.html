@@ -18,6 +18,10 @@
         <hr>
     </div>
     {% endfor %}
+    <div class="amount">
+        <h3>Итоговая сумма:</h3>
+        <h2>{{ amount }} руб.</h2>
+    </div>
     {% else %}
     <h2>Товаров в корзине пока нет</h2>
     {% endif %}
@@ -36,7 +40,7 @@
                 },
                 success: function(response) {
                     if (response.success){
-                        alert('Товар убран!');
+                        alert('Товар убран!' + response.sum);
                         $('#product-' + productId).remove();
                     } else {
                         alert('Ошибка при удалении товара с корзины');

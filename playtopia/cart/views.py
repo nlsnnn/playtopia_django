@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.views.generic import ListView
 
 from store.models import Cart, Product
@@ -13,6 +14,12 @@ class CartProducts(ListView):
     template_name = 'cart/products.html'
     model = Cart
     context_object_name = 'products'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        products: QuerySet = context['products']
+        context['amount'] = products.aggregate(Sum('price')).get('price__sum')
+        return context
 
     def get_queryset(self) -> QuerySet[Any]:
         cart = Cart.objects.filter(user_id=self.request.user)
@@ -42,7 +49,8 @@ def delete_from_cart(request: HttpRequest):
         product_id = request.POST.get('product_id')
         cart_item = get_object_or_404(Cart, user_id=request.user,
                                       product_id=product_id)
+        p_sum = Product.objects.get(id=product_id).price
         cart_item.delete()
 
-        return JsonResponse({'success': True})
+        return JsonResponse({'success': True, 'sum': p_sum})
     return JsonResponse({'success': False})
