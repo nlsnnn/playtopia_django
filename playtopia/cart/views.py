@@ -57,3 +57,35 @@ def delete_from_cart(request: HttpRequest):
 
         return JsonResponse({'success': True, 'sum': p_sum})
     return JsonResponse({'success': False})
+
+
+def sub_item_cart(request: HttpRequest):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        cart_item = get_object_or_404(Cart, user_id=request.user,
+                                      product_id=product_id)
+
+        quantity = cart_item.quantity
+        if (quantity == 1):
+            cart_item.delete()
+        else:
+            cart_item.quantity = quantity - 1
+        cart_item.save()
+
+        return JsonResponse({'success': True, 'quantity': quantity-1})
+    return JsonResponse({'success': False})
+
+
+def add_item_cart(request: HttpRequest):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        cart_item: Cart = get_object_or_404(Cart, user_id=request.user,
+                                      product_id=product_id)
+
+
+        new_quantity = int(cart_item.quantity) + 1
+        cart_item.quantity = new_quantity
+        cart_item.save()
+
+        return JsonResponse({'success': True, 'quantity': new_quantity})
+    return JsonResponse({'success': False})

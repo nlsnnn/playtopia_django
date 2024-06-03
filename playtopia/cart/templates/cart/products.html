@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 {% load cart_tags %}
+{% load static %}
 
 
 {% block content %}
 
-<section class="cart-list container">
+<section class="cart-list container"
+         data-delete-url="{% url 'cart:delete_from_cart' %}"
+         data-add-url="{% url 'cart:add_item_cart' %}"
+         data-sub-url="{% url 'cart:sub_item_cart' %}"
+         data-csrf-token="{{ csrf_token }}">
     {% if products %}
     {% for p in products %}
     <div class="card" id="product-{{ p.id }}">
         <a href="{{ p.get_absolute_url }}">
-        <img src="/media/games/default.png" alt="Not found">
+            <img src="/media/games/default.png" alt="Not found">
         </a>
         <div class="content">
             <h3>{{ p.name }}</h3>
             <h2>{{ p.price }}</h2>
             <i class="fa-solid fa-trash delete-from-cart" data-product-id="{{ p.id }}"></i>
             <div class="quantity">
-                <p>
-                    <button>+</button>
-                    {{ product_quantities|dict_get:p.id }}
-                    <button>-</button>
-                </p>
+                <button class="add-item-cart" data-product-id="{{ p.id }}">+</button>
+                <span id="quantityText-{{p.id}}">{{ product_quantities|dict_get:p.id }}</span>
+                <button class="sub-item-cart" data-product-id="{{ p.id }}">-</button>
             </div>
         </div>
     </div>
@@ -35,32 +38,6 @@
     {% endif %}
 </section>
 
-<script>
-    $(document).ready(function() {
-        $('.delete-from-cart').on('click', function() {
-            var productId = $(this).data('product-id');
-            $.ajax({
-                url: "{% url 'cart:delete_from_cart' %}",
-                method: "POST",
-                data: {
-                    'product_id': productId,
-                    'csrfmiddlewaretoken': "{{ csrf_token }}"
-                },
-                success: function(response) {
-                    if (response.success){
-                        alert('Товар убран!');
-                        $('#product-' + productId).remove();
-                    } else {
-                        alert('Ошибка при удалении товара с корзины');
-                    }
-                },
-                error: function() {
-                    alert('Произошла ошибка.');
-                }
-            });
-        });
-    });
-
-</script>
+<script src="{% static 'cart/js/products.js' %}"></script>
 
 {% endblock %}
