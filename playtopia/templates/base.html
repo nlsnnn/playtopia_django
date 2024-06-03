@@ -20,7 +20,9 @@
             </div>
             <ul class="nav">
                 <li><a href="{% url 'catalog' %}" class="catalogLink">Каталог</a></li>
+                {% if user.is_authenticated %}
                 <li><a href="{% url 'cart:cart_list' %}">Корзина</a></li>
+                {% endif %}
                 {% if perms.store.add_product %}
                 <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
                 {% endif %}

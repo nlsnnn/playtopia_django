@@ -17,8 +17,11 @@ class CartProducts(ListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        products: QuerySet = context['products']
-        context['amount'] = products.aggregate(Sum('price')).get('price__sum')
+        cart_items = Cart.objects.filter(user_id=self.request.user)
+        # products: QuerySet = context['products']
+        product_quantities = {item.product_id: item.quantity for item in cart_items}
+        context['product_quantities'] = product_quantities
+        context['amount'] = cart_items.aggregate(total_price=Sum('product__price', field="product__price * quantity")).get('total_price')
         return context
 
     def get_queryset(self) -> QuerySet[Any]:

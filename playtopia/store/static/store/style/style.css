@@ -1105,6 +1105,16 @@ header.black{
 
 /* cart */
 
+.cart-list .card {
+    display: flex;
+    gap: 15px;
+}
+
+.cart-list hr{
+    margin: 25px 0 25px 0;
+}
+
+
 .cart-list i {
     cursor: pointer;
 }
