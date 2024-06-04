@@ -17,6 +17,7 @@ $(document).ready(function () {
                 if (response.success) {
                     alert('Товар убран!');
                     $('#product-' + productId).remove();
+                    $('#p-'+productId).remove();
                 } else {
                     alert('Ошибка при удалении товара с корзины');
                 }
@@ -61,8 +62,15 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.success) {
-                    console.log('Убавили');
-                    quantityText.textContent=response.quantity;
+                    console.log(response.last)
+                    if (response.last){
+                        $('#product-' + productId).remove();
+                        $('#p-' + productId).remove()
+                        console.log('#p-' + productId)
+                    } else{
+                        console.log('Убавили');
+                        quantityText.textContent=response.quantity;
+                    }
                 } else {
                     console.log('Ошибка при уменьшении товара');
                 }

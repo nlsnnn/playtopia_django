@@ -65,14 +65,16 @@ def sub_item_cart(request: HttpRequest):
         cart_item = get_object_or_404(Cart, user_id=request.user,
                                       product_id=product_id)
 
+        last = False
         quantity = cart_item.quantity
-        if (quantity == 1):
-            cart_item.delete()
-        else:
+        if cart_item.quantity > 1:
             cart_item.quantity = quantity - 1
-        cart_item.save()
+            cart_item.save()
+        else:
+            cart_item.delete()
+            last = True
 
-        return JsonResponse({'success': True, 'quantity': quantity-1})
+        return JsonResponse({'success': True, 'quantity': quantity-1, 'last': last})
     return JsonResponse({'success': False})
 
 

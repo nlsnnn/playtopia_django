@@ -27,11 +27,11 @@
             </div>
         </div>
     </div>
-    <hr>
+    <hr id="p-{{ p.id }}">
     {% endfor %}
     <div class="amount">
         <h3>Итоговая сумма:</h3>
-        <h2>{{ amount }} руб.</h2>
+        <h2 id="aText">{{ amount }} руб.</h2>
     </div>
     {% else %}
     <h2>Товаров в корзине пока нет</h2>
