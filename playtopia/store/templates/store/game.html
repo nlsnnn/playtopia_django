@@ -11,11 +11,24 @@
         {% endif %}
     </div>
     <div class="right">
-        <h3>{{ game.price }} руб.</h3>
-        <p>{{ game.description }}</p>
-        <hr>
-        <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
+        <div class="content">
+            <h3>{{ game.price }} руб.</h3>
+            <p>{{ game.description }}</p>
+            <hr>
+            <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
+        </div>
+        <div class="reviews">
+            {% if reviews %}
+            {% for r in reviews %}
+            <h3>{{ r.user_id }}</h3>
+            <p>{{ r.text }}</p>
+            {% endfor %}
+            {% endif %}
+            <button><a href="{% url 'add_review' game.slug %}">Оставить отзыв</a></button>
+        </div>
+
     </div>
+
 
     {% if perms.users.edit_product and perms.users.delete_product %}
     <div class="admin">

@@ -13,8 +13,6 @@ class Product(models.Model):
     is_published = models.BooleanField(verbose_name='Статус')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='products', verbose_name='Категории')
-    reviews = models.ForeignKey('Review', on_delete=models.SET_NULL, null=True, blank=True,
-                                related_name='product_reviews', verbose_name='Отзывы')
 
     def get_absolute_url(self):
         return reverse('game', kwargs={'game_slug': self.slug})

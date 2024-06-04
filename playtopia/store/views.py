@@ -1,6 +1,8 @@
 from typing import Any
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (TemplateView, ListView, DetailView,
@@ -8,8 +10,8 @@ from django.views.generic import (TemplateView, ListView, DetailView,
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from .forms import AddGameForm
-from .models import Product, Category
+from .forms import AddGameForm, AddReviewForm
+from .models import Product, Category, Review
 
 
 class MainPage(TemplateView):
@@ -45,6 +47,12 @@ class ShowGame(DetailView):
     slug_url_kwarg = 'game_slug'
     context_object_name = 'game'
 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        # product = Product.objects.filter(slug=self.kwargs[self.slug_url_kwarg])
+        context['reviews'] = Review.objects.filter(product_id__slug=self.kwargs[self.slug_url_kwarg])
+        return context
+
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
         return get_object_or_404(Product, slug=self.kwargs[self.slug_url_kwarg])
 
@@ -68,3 +76,15 @@ class DeleteGame(DeleteView):
     template_name = 'store/add_game.html'
     model = Product
     success_url = reverse_lazy('catalog')
+
+
+class AddReview(CreateView):
+    template_name = 'store/add_review.html'
+    form_class = AddReviewForm
+    success_url = reverse_lazy('catalog')
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        slug = self.kwargs.get('slug')
+        form.instance.product = get_object_or_404(Product, slug=slug)
+        return super().form_valid(form)
