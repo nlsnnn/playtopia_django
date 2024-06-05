@@ -86,6 +86,17 @@ header .nav{
     cursor: pointer;
 }
 
+.r-nav a{
+    text-decoration: none;
+    color: var(--b_white);
+    transition: .3s;
+}
+
+
+.r-nav a:hover{
+    color: var(--blue_light);
+}
+
 .btnLogin{
     width: 120px;
     height: 40px;
@@ -504,7 +515,6 @@ section.box {
     width: 325px;
     height: 400px;
     object-fit: cover;
-    object-position: right;
 }
 
 .card .image:hover .description{
@@ -555,10 +565,15 @@ section.box {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: .2s;
 }
 
 .cart i{
     color: var(--blue_dark);
+}
+
+.cart:active {
+    transform: scale(.9);
 }
 
 @keyframes displayable {
@@ -1117,4 +1132,20 @@ header.black{
 
 .cart-list i {
     cursor: pointer;
+}
+
+.cart-list img{
+    border-radius: 5px;
+    width: 480px;
+    height: 400px;
+    object-fit:cover;
+}
+
+
+
+/* profile */
+
+.profile img{
+    width: 300px;
+    height: 200px;
 }

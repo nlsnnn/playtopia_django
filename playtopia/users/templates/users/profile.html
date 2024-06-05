@@ -2,7 +2,7 @@
 
 {% block content %}
 <section class="profile container">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if user.photo %}
         <img src="{{ user.photo.url }}" alt="">

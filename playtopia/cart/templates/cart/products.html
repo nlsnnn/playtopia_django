@@ -13,9 +13,15 @@
     {% if products %}
     {% for p in products %}
     <div class="card" id="product-{{ p.id }}">
+        {% if p.photo %}
+        <a href="{{ p.get_absolute_url }}">
+            <img src="{{ p.photo.url }}" alt="Not found">
+        </a>
+        {% else %}
         <a href="{{ p.get_absolute_url }}">
             <img src="/media/games/default.png" alt="Not found">
         </a>
+        {% endif %}
         <div class="content">
             <h3>{{ p.name }}</h3>
             <h2>{{ p.price }}</h2>

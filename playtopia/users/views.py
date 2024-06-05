@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView, UpdateView, CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm
 
@@ -25,10 +25,13 @@ class ProfileUser(UpdateView):
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     slug_url_kwarg = 'user_slug'
-    success_url = reverse_lazy('catalog')
+    success_url = reverse_lazy('users:profile')
 
-    def get_object(self, queryset: QuerySet[reverse_lazy] | None = ...) -> Model:
+    def get_object(self, queryset: QuerySet | None = ...) -> Model:
         return self.request.user
+
+    def get_success_url(self) -> str:
+        return reverse('users:profile', kwargs={'user_slug': self.request.user.username})
 
 
 class RegisterUser(CreateView):
