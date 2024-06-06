@@ -7,6 +7,7 @@ from django.db.models import Sum
 from django.views.generic import ListView
 
 from store.models import Cart, Product
+from .cart import CartApp
 
 
 
@@ -33,61 +34,27 @@ class CartProducts(ListView):
 
 def add_to_cart(request: HttpRequest):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        product = get_object_or_404(Product, id=product_id)
-
-        cart_item, created = Cart.objects.get_or_create(
-            user=request.user, product=product
-        )
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
-
-        return JsonResponse({'success': True, 'quantity': cart_item.quantity})
+        cart = CartApp(request)
+        return cart.add_to_cart()
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
 
 
 def delete_from_cart(request: HttpRequest):
     if request.method ==  'POST':
-        product_id = request.POST.get('product_id')
-        cart_item = get_object_or_404(Cart, user_id=request.user,
-                                      product_id=product_id)
-        p_sum = Product.objects.get(id=product_id).price
-        cart_item.delete()
-
-        return JsonResponse({'success': True, 'sum': p_sum})
+        cart = CartApp(request)
+        return cart.delete_from_cart()
     return JsonResponse({'success': False})
 
 
 def sub_item_cart(request: HttpRequest):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        cart_item = get_object_or_404(Cart, user_id=request.user,
-                                      product_id=product_id)
-
-        last = False
-        quantity = cart_item.quantity
-        if cart_item.quantity > 1:
-            cart_item.quantity = quantity - 1
-            cart_item.save()
-        else:
-            cart_item.delete()
-            last = True
-
-        return JsonResponse({'success': True, 'quantity': quantity-1, 'last': last})
+        cart = CartApp(request)
+        return cart.sub_item_cart()
     return JsonResponse({'success': False})
 
 
 def add_item_cart(request: HttpRequest):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        cart_item: Cart = get_object_or_404(Cart, user_id=request.user,
-                                      product_id=product_id)
-
-
-        new_quantity = int(cart_item.quantity) + 1
-        cart_item.quantity = new_quantity
-        cart_item.save()
-
-        return JsonResponse({'success': True, 'quantity': new_quantity})
+        cart = CartApp(request)
+        return cart.add_item_cart()
     return JsonResponse({'success': False})
