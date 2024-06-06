@@ -37,11 +37,6 @@ class Review(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
 
-class Order(models.Model):
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='Пользователь')
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Игра')
-    status = models.CharField(max_length=100, verbose_name='Статус заказа')
-
 
 class Cart(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
