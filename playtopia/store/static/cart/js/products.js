@@ -3,6 +3,7 @@ $(document).ready(function () {
     let addUrl = $('.cart-list').data('add-url');
     let subUrl = $('.cart-list').data('sub-url');
     let csrfToken = $('.cart-list').data('csrf-token');
+    let amountText = document.getElementById('aText');
 
     $('.delete-from-cart').on('click', function () {
         let productId = $(this).data('product-id');
@@ -15,9 +16,10 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.success) {
-                    alert('Товар убран!');
                     $('#product-' + productId).remove();
                     $('#p-'+productId).remove();
+                    console.log(response.new_amount)
+                    amountText.textContent = `${response.new_amount} руб.`;
                 } else {
                     alert('Ошибка при удалении товара с корзины');
                 }
@@ -40,7 +42,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     console.log('Прибавили', 'quantityText-'+productId);
-                    quantityText.textContent=response.quantity;
+                    quantityText.textContent = response.quantity;
+                    amountText.textContent = `${response.new_amount} руб.`;
                 } else {
                     console.log('Ошибка при увеличении');
                 }
@@ -53,6 +56,7 @@ $(document).ready(function () {
     $('.sub-item-cart').on('click', function() {
         let productId = $(this).data('product-id');
         let quantityText = document.getElementById('quantityText-'+productId);
+
         $.ajax({
             url: subUrl,
             method: "POST",
@@ -66,10 +70,11 @@ $(document).ready(function () {
                     if (response.last){
                         $('#product-' + productId).remove();
                         $('#p-' + productId).remove()
-                        console.log('#p-' + productId)
+                        amountText.textContent = `${response.new_amount} руб.`;
                     } else{
                         console.log('Убавили');
                         quantityText.textContent=response.quantity;
+                        amountText.textContent = `${response.new_amount} руб.`;
                     }
                 } else {
                     console.log('Ошибка при уменьшении товара');
