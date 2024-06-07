@@ -24,14 +24,10 @@ class LogoutUser(LogoutView):
 class ProfileUser(UpdateView):
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
-    slug_url_kwarg = 'user_slug'
     success_url = reverse_lazy('users:profile')
 
     def get_object(self, queryset: QuerySet | None = ...) -> Model:
         return self.request.user
-
-    def get_success_url(self) -> str:
-        return reverse('users:profile', kwargs={'user_slug': self.request.user.username})
 
 
 class RegisterUser(CreateView):
