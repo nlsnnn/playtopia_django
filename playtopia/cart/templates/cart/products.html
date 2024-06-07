@@ -35,9 +35,12 @@
     </div>
     <hr id="p-{{ p.id }}">
     {% endfor %}
-    <div class="amount">
-        <h3>Итоговая сумма:</h3>
-        <h2 id="aText">{{ amount }} руб.</h2>
+    <div class="buy">
+        <div class="amount">
+            <h3>Итоговая сумма:</h3>
+            <h2 id="aText">{{ amount }} руб.</h2>
+        </div>
+        <a href="{% url 'payment:checkout' %}"><button>Оплатить</button></a>
     </div>
     {% else %}
     <h2>Товаров в корзине пока нет</h2>

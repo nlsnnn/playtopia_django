@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="checkout container">
+
+    <form method="post">
+        {% csrf_token %}
+        <h2>Ваши данные:</h2>
+
+        <div class="form-error">{{ form.non_fields_errors }}</div>
+        {% for f in form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+        <hr>
+        <p><button type="submit">Оплатить</button></p>
+    </form>
+    <div class="sum">
+        <h3>Итоговая сумма</h3>
+        <h2>{{ sum  }}</h2>
+    </div>
+
+</section>
+
+{% endblock %}
