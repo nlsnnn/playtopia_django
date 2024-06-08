@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Category, Product
+from .models import Category, Product, Review
 
 
 admin.site.site_header = 'Админ панель'
@@ -24,3 +24,6 @@ class ProductAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     fields = ['name', 'slug']
     list_display = ['id', 'name']
+
+
+admin.site.register(Review)

@@ -32,9 +32,8 @@
                         <h3>{{ p.name }}</h3>
                         <div class="bottom">
                             <span>{{ p.price }} ₽</span>
-                            <div class="cart">
-                                    <i class="fa-solid fa-cart-shopping add-to-cart" data-product-id="{{ p.id }}"></i>
-
+                            <div class="cart add-to-cart" data-product-id="{{ p.id }}">
+                                <i class="fa-solid fa-cart-shopping"></i>
                             </div>
                         </div>
                     </div>
@@ -45,7 +44,9 @@
         {% endfor %}
     </div>
 </section>
+{% endblock %}
 
+{% block script %}
 <script>
     $(document).ready(function() {
         $('.add-to-cart').on('click', function() {
