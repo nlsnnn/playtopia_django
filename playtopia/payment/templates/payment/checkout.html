@@ -3,7 +3,7 @@
 {% block content %}
 <section class="checkout container">
 
-    <form method="post">
+    <form method="post" action="{% url 'payment:complete_order' %}">
         {% csrf_token %}
         <h2>Ваши данные:</h2>
 
@@ -13,7 +13,8 @@
         <div class="form-error">{{ f.errors }}</div>
         {% endfor %}
         <hr>
-        <p><button type="submit" id="payBtn">Оплатить</button></p>
+        <p><button type="submit" id="payBtn-Stripe" name="stripe-payment" value="stripe-payment">Оплата через Stripe</button></p>
+        <p><button type="submit" id="payBtn-Yookassa" name="yookassa-payment" value="yookassa-payment">Оплата через Youkassa</button></p>
     </form>
     <div class="sum">
         <h3>Итоговая сумма</h3>
@@ -21,30 +22,4 @@
     </div>
 
 </section>
-{% endblock %}
-
-{% block script %}
-<script>
-    $(document).on('submit', function(e) {
-        e.preventDefault();
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'payment:complete_order' %}",
-            data: {
-                csrfmiddlewaretoken: "{{ csrf_token }}",
-                amount: "{{ sum }}",
-                action: "payment"
-            },
-            success: function(response){
-                window.location.href = "{% url 'payment:payment_success' %}"
-                console.log('OK')
-            },
-            error: function(){
-                window.location.href = "{% url 'payment:payment_fail' %}"
-                console.log('NO')
-            }
-        })
-    });
-</script>
 {% endblock %}
