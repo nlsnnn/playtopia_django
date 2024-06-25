@@ -3,11 +3,11 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import get_user_model
-from django.views.generic import DetailView, UpdateView, CreateView
+from django.views.generic import DetailView, UpdateView, CreateView, ListView
 from django.urls import reverse, reverse_lazy
 
 from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm
-
+from payment.models import Order, OrderItem
 
 class LoginUser(LoginView):
     template_name = 'users/login.html'
@@ -34,3 +34,33 @@ class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'users/login.html'
     success_url = reverse_lazy('users:login')
+
+
+class OrdersUser(ListView):
+    template_name = 'users/orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self) -> QuerySet[reverse_lazy]:
+        return Order.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs: reverse_lazy):
+        context = super().get_context_data(**kwargs)
+        orders = context['orders']
+        for order in orders:
+            order.products = [item.product for item in order.items.all()]
+        return context
+
+
+class ShowOrder(DetailView):
+    template_name = 'users/order.html'
+    context_object_name = 'order'
+
+    def get_context_data(self, **kwargs: reverse_lazy) -> dict[str]:
+        context = super().get_context_data(**kwargs)
+        order = context['order']
+        order.products = [item.product for item in order.items.all()]
+        print(order.products)
+        return context
+
+    def get_object(self, queryset: QuerySet[reverse_lazy] | None = ...) -> Model:
+        return Order.objects.get(pk=self.kwargs['id'])
