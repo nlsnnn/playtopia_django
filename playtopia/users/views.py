@@ -1,12 +1,14 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView,
+                                       PasswordChangeDoneView)
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView, UpdateView, CreateView, ListView
 from django.urls import reverse, reverse_lazy
 
-from .forms import LoginUserForm, ProfileUserForm, RegisterUserForm
+from .forms import (LoginUserForm, ProfileUserForm, RegisterUserForm,
+                    UserPasswordChangeForm)
 from payment.models import Order, OrderItem
 
 class LoginUser(LoginView):
@@ -34,6 +36,12 @@ class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'users/login.html'
     success_url = reverse_lazy('users:login')
+
+
+class PasswordChange(PasswordChangeView):
+    template_name = 'users/password_change_form.html'
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy('users:password-change-done')
 
 
 class OrdersUser(ListView):

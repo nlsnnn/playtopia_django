@@ -73,8 +73,8 @@ def complete_order(request: HttpRequest):
                         'quantity': item.quantity
                     })
 
-                    session = stripe.checkout.Session.create(**session_data)
-                    return redirect(session.url, code=303)
+                session = stripe.checkout.Session.create(**session_data)
+                return redirect(session.url, code=303)
 
             case 'yookassa-payment':
                 idempotency_key = uuid.uuid4()
