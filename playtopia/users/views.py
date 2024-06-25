@@ -2,7 +2,9 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView,
-                                       PasswordChangeDoneView)
+                                       PasswordChangeDoneView, PasswordResetView,
+                                       PasswordResetDoneView, PasswordResetConfirmView,
+                                       PasswordResetCompleteView)
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView, UpdateView, CreateView, ListView
 from django.urls import reverse, reverse_lazy
