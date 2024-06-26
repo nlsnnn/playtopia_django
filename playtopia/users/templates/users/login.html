@@ -7,6 +7,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Отправить</button>
+        <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'users:profile' %}">Google</a>
         <a href="{% url 'users:password-reset' %}">Забыли пароль?</a>
         <a href="{% url 'users:register' %}">Регистрация</a>
     </form>

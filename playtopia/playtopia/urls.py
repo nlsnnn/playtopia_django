@@ -26,7 +26,8 @@ urlpatterns = [
     path('', include('store.urls')),
     path('auth/', include('users.urls', namespace='users')),
     path('cart/', include('cart.urls', namespace='cart')),
-    path('payment/', include('payment.urls', namespace='payment'))
+    path('payment/', include('payment.urls', namespace='payment')),
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:
