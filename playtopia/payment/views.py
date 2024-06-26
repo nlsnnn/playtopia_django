@@ -54,6 +54,7 @@ def complete_order(request: HttpRequest):
                     'mode': 'payment',
                     'success_url': request.build_absolute_uri(reverse('payment:payment_success')),
                     'cancel_url': request.build_absolute_uri(reverse('payment:payment_fail')),
+                    'client_reference_id': order.id,
                     'line_items': []
                 }
 
