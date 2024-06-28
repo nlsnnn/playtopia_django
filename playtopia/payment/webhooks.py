@@ -5,6 +5,7 @@ from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import stripe.error
 
+from .tasks import send_order_confirmation
 from .models import Order
 
 
@@ -32,6 +33,9 @@ def stripe_webhook(request: HttpRequest):
             except Order.DoesNotExist:
                 return HttpResponse(status=404)
 
+            print('SEND_ORDER')
+            send_order_confirmation.delay_on_commit(order_id)
+            print('send order')
             order = Order.objects.get(id=order_id)
             order.paid = True
             order.save()
