@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="orders container">
+    {% for o in orders %}
+    <div class="order">
+        <h2>ID Заказа: {{ o.id }}</h2>
+        <h2>{{ o.created }}</h2>
+        <div class="products">
+            <div class="photos">
+                {% for product in o.products %}
+                {% if product.photo %}
+                <img class="pr-photo" src="{{ product.photo.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img class="pr-photo" src="/media/games/default.png" alt="{{ product.name }}">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <p>Сумма заказа: {{ o.amount }} руб.</p>
+        <a href="{% url 'payment:show_order' o.id %}"><h3>Подробнее</h3></a>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

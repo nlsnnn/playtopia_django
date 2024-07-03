@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="show-order container">
+    <div class="top-info">
+        <h2>Order {{order.id}}</h2>
+        <h3>{{order.created}}</h3>
+    </div>
+    <div class="photos">
+        {% for p in order.products %}
+        {% if p.photo %}
+        <img class="pr-photo" src="{{p.photo.url}}" alt="">
+        {% else %}
+        <img class="pr-photo" src="/media/games/default.png" alt="">
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

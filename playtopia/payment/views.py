@@ -7,9 +7,9 @@ from typing import Any
 from django.urls import reverse
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView, DetailView
 #
 from django.conf import settings
 from cart.cart import CartApp
@@ -17,6 +17,8 @@ from store.models import Product
 #
 from .models import Order, OrderItem
 from .forms import CheckoutForm
+from .services import get_usd_rate
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version = settings.STRIPE_API_VERSION
@@ -38,6 +40,34 @@ class Checkout(UpdateView):
         context['sum'] = cart.get_total_price()
         return context
 
+class OrdersUser(ListView):
+    template_name = 'payment/orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders = context['orders']
+        for order in orders:
+            order.products = [item.product for item in order.items.all()]
+        return context
+
+
+class ShowOrder(DetailView):
+    template_name = 'payment/order.html'
+    context_object_name = 'order'
+
+    def get_context_data(self, **kwargs) -> dict[str]:
+        context = super().get_context_data(**kwargs)
+        order = context['order']
+        order.products = [item.product for item in order.items.all()]
+        return context
+
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        return Order.objects.get(pk=self.kwargs['id'])
+
 
 def complete_order(request: HttpRequest):
     if request.POST:
@@ -58,6 +88,8 @@ def complete_order(request: HttpRequest):
                     'line_items': []
                 }
 
+                usd_rate = int(get_usd_rate())
+
                 for item in cart.user_cart:
                     product = Product.objects.get(pk=item.product_id)
                     OrderItem.objects.create(order=order, product=product,
@@ -65,7 +97,7 @@ def complete_order(request: HttpRequest):
 
                     session_data['line_items'].append({
                         'price_data': {
-                            'unit_amount': int((product.price / 88) * 100),
+                            'unit_amount': int((product.price / usd_rate) * 100),
                             'currency': 'usd',
                             'product_data': {
                                 'name': product.name
