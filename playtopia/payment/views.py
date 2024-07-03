@@ -9,14 +9,13 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from django.views.generic import UpdateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView
 #
 from django.conf import settings
 from cart.cart import CartApp
 from store.models import Product
 #
 from .models import Order, OrderItem
-from .forms import CheckoutForm
 from .services import get_usd_rate
 
 
@@ -27,12 +26,8 @@ Configuration.account_id = settings.YOOKASSA_ACCOUNT_ID
 Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
 
 # Create your views here.
-class Checkout(UpdateView):
-    form_class = CheckoutForm
+class Checkout(TemplateView):
     template_name = 'payment/checkout.html'
-
-    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
-        return self.request.user
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

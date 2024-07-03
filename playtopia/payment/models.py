@@ -5,7 +5,7 @@ from store.models import Product
 
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
-    email = models.EmailField(verbose_name='Email')
+    email = models.EmailField(verbose_name='Email', blank=True, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     paid = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
