@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Category, Product, Review
+from .models import Category, Product, Review, ActivationKey
 
 
 admin.site.site_header = 'Админ панель'
@@ -27,3 +27,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Review)
+admin.site.register(ActivationKey)

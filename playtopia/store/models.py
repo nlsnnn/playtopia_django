@@ -21,6 +21,17 @@ class Product(models.Model):
         return self.name
 
 
+class ActivationKey(models.Model):
+    class Status(models.IntegerChoices):
+        ISSUED = 1, 'Выдан'
+        NOT_ISSUED = 0, 'Не выдан'
+
+    key = models.CharField(max_length=20, unique=True, verbose_name='Ключ')
+    game = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Игра')
+    status = models.IntegerField(choices=Status.choices, default=Status.NOT_ISSUED, verbose_name='Статус')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Время добавления')
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50, db_index=True, verbose_name='Категория')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
@@ -35,7 +46,6 @@ class Review(models.Model):
     text = models.TextField(blank=True, null=True, verbose_name='Отзыв')
     rating = models.IntegerField()
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-
 
 
 class Cart(models.Model):
