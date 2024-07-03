@@ -33,9 +33,7 @@ def stripe_webhook(request: HttpRequest):
             except Order.DoesNotExist:
                 return HttpResponse(status=404)
 
-            print('SEND_ORDER')
-            send_order_confirmation.delay_on_commit(order_id)
-            print('send order')
+            send_order_confirmation.delay(order_id)
             order = Order.objects.get(id=order_id)
             order.paid = True
             order.save()

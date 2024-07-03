@@ -1,5 +1,7 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView,
                                        PasswordChangeDoneView, PasswordResetView,
@@ -11,7 +13,9 @@ from django.urls import reverse, reverse_lazy
 
 from .forms import (LoginUserForm, ProfileUserForm, RegisterUserForm,
                     UserPasswordChangeForm)
+from .tasks import send_registration_mail
 from payment.models import Order, OrderItem
+
 
 class LoginUser(LoginView):
     template_name = 'users/login.html'
@@ -39,6 +43,11 @@ class RegisterUser(CreateView):
     template_name = 'users/login.html'
     success_url = reverse_lazy('users:login')
 
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.save()
+        send_registration_mail.delay(form.instance.username,
+                                     form.instance.email)
+        return super().form_valid(form)
 
 class PasswordChange(PasswordChangeView):
     template_name = 'users/password_change_form.html'
