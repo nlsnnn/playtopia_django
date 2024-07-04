@@ -15,6 +15,9 @@
         {% endif %}
         {% endfor %}
     </div>
+    {% if order.keys_file %}
+    <a href="{{ order.keys_file.url }}" download>Скачать</a>
+    {% endif %}
 </section>
 
 {% endblock %}

@@ -104,7 +104,6 @@ def complete_order(request: HttpRequest):
                     })
 
                 session = stripe.checkout.Session.create(**session_data)
-                key.issue_activation_keys()
                 return redirect(session.url, code=303)
 
             case 'yookassa-payment':

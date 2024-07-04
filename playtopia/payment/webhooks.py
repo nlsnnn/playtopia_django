@@ -7,6 +7,7 @@ import stripe.error
 
 from .tasks import send_order_confirmation
 from .models import Order
+from .key import Key
 
 
 @csrf_exempt
@@ -35,10 +36,14 @@ def stripe_webhook(request: HttpRequest):
 
             customer_email = session.get('customer_details', {}).get('email')
 
+
+
             send_order_confirmation.delay(order_id, customer_email)
             order = Order.objects.get(id=order_id)
             order.email = customer_email
             order.paid = True
+            key = Key(order)
+            key.issue_activation_keys()
             order.save()
 
     return HttpResponse(status=200)

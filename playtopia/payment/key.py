@@ -8,14 +8,12 @@ class Key:
     def __init__(self, order) -> None:
         self.order: Order = order
 
-
     def create_text(self):
         text = f'Заказ {self.order.id}\n\n'
         for keys in self.get_keys():
             for game, key in keys.items():
                 text += f'{game}: {key}\n'
         return text
-
 
     def get_keys(self):
         keys = []
@@ -28,7 +26,6 @@ class Key:
                 activation_key.save()
                 keys.append({game.name: activation_key.key})
         return keys
-
 
     def issue_activation_keys(self):
         text = self.create_text()
