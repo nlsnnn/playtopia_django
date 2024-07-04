@@ -1,9 +1,8 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, F
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from store.models import Cart, Product
@@ -11,7 +10,7 @@ from .cart import CartApp
 
 
 
-class CartProducts(ListView):
+class CartProducts(LoginRequiredMixin, ListView):
     template_name = 'cart/products.html'
     model = Cart
     context_object_name = 'products'

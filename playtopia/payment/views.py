@@ -7,9 +7,11 @@ from typing import Any
 from django.urls import reverse
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 #
 from django.conf import settings
 from cart.cart import CartApp
@@ -27,7 +29,7 @@ Configuration.account_id = settings.YOOKASSA_ACCOUNT_ID
 Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
 
 # Create your views here.
-class Checkout(TemplateView):
+class Checkout(LoginRequiredMixin, TemplateView):
     template_name = 'payment/checkout.html'
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
@@ -36,7 +38,7 @@ class Checkout(TemplateView):
         context['sum'] = cart.get_total_price()
         return context
 
-class OrdersUser(ListView):
+class OrdersUser(LoginRequiredMixin, ListView):
     template_name = 'payment/orders.html'
     context_object_name = 'orders'
 
@@ -51,7 +53,7 @@ class OrdersUser(ListView):
         return context
 
 
-class ShowOrder(DetailView):
+class ShowOrder(LoginRequiredMixin, DetailView):
     template_name = 'payment/order.html'
     context_object_name = 'order'
 
@@ -62,7 +64,10 @@ class ShowOrder(DetailView):
         return context
 
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
-        return Order.objects.get(pk=self.kwargs['id'])
+        order = Order.objects.get(pk=self.kwargs['id'])
+        if order.user != self.request.user:
+            raise Http404("Вы не имеете доступа к этому заказу.")
+        return order
 
 
 def complete_order(request: HttpRequest):
@@ -134,11 +139,13 @@ def complete_order(request: HttpRequest):
                 return redirect(confirmation_url)
 
 
+@login_required
 def payment_success(request: HttpRequest):
     cart = CartApp(request)
     cart.user_cart.all().delete()
 
     return render(request, 'payment/payment-success.html')
 
+@login_required
 def payment_fail(request: HttpRequest):
     return render(request, 'payment/payment-fail.html')

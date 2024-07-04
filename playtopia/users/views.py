@@ -8,9 +8,10 @@ from django.urls import reverse_lazy
 from .forms import (LoginUserForm, ProfileUserForm, RegisterUserForm,
                     UserPasswordChangeForm)
 from .tasks import send_registration_mail
+from .mixins import AnonymousRequiredMixin
 
 
-class LoginUser(LoginView):
+class LoginUser(AnonymousRequiredMixin, LoginView):
     template_name = 'users/login.html'
     form_class = LoginUserForm
 
@@ -31,7 +32,7 @@ class ProfileUser(UpdateView):
         return self.request.user
 
 
-class RegisterUser(CreateView):
+class RegisterUser(AnonymousRequiredMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'users/login.html'
     success_url = reverse_lazy('users:login')

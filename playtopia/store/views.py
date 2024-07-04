@@ -3,11 +3,10 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import (TemplateView, ListView, DetailView,
                                   CreateView, UpdateView, DeleteView)
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .forms import AddGameForm, AddReviewForm
@@ -65,20 +64,22 @@ class AddGame(PermissionRequiredMixin, CreateView):
     permission_required = 'store.add_product'
 
 
-class UpdateGame(UpdateView):
+class UpdateGame(PermissionRequiredMixin, UpdateView):
     template_name = 'store/add_game.html'
     model = Product
     success_url = reverse_lazy('catalog')
     fields = '__all__'
+    permission_required = 'store.edit_product'
 
 
-class DeleteGame(DeleteView):
+class DeleteGame(PermissionRequiredMixin, DeleteView):
     template_name = 'store/add_game.html'
     model = Product
     success_url = reverse_lazy('catalog')
+    permission_required = 'store.delete_product'
 
 
-class AddReview(CreateView):
+class AddReview(LoginRequiredMixin, CreateView):
     template_name = 'store/add_review.html'
     form_class = AddReviewForm
     success_url = reverse_lazy('catalog')
