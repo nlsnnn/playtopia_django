@@ -17,6 +17,7 @@ from store.models import Product
 #
 from .models import Order, OrderItem
 from .services import get_usd_rate
+from .key import Key
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -72,6 +73,7 @@ def complete_order(request: HttpRequest):
         amount = cart.get_total_price()
 
         order = Order.objects.create(user=user, amount=amount)
+        key = Key(order)
 
         match payment_type:
             case 'stripe-payment':
@@ -102,6 +104,7 @@ def complete_order(request: HttpRequest):
                     })
 
                 session = stripe.checkout.Session.create(**session_data)
+                key.issue_activation_keys()
                 return redirect(session.url, code=303)
 
             case 'yookassa-payment':
