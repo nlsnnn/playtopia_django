@@ -29,12 +29,38 @@ class Category(models.Model):
         return self.name
 
 
+class PendingManager(models.Manager):
+    def get_queryset(self) -> models.QuerySet:
+        return super().get_queryset().filter(status=Review.Status.PENDING)
+
+class PostedManager(models.Manager):
+    def get_queryset(self) -> models.QuerySet:
+        return super().get_queryset().filter(status=Review.Status.POSTED)
+
+
 class Review(models.Model):
+    class Status(models.IntegerChoices):
+        PENDING = 0, 'Не опубликован'
+        POSTED = 1, 'Опубликован'
+
+    class Meta:
+        ordering = ['-time_create']
+
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     text = models.TextField(blank=True, null=True, verbose_name='Отзыв')
     rating = models.IntegerField()
+    status = models.IntegerField(choices=Status.choices, default=Status.PENDING, verbose_name='Статус')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    objects = models.Manager()
+    pending = PendingManager()
+    posted = PostedManager()
+
+    def __str__(self) -> str:
+        return self.text
+
+
 
 
 class Cart(models.Model):

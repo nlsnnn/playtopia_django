@@ -27,6 +27,9 @@
                 {% if perms.store.add_product %}
                 <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
                 {% endif %}
+                {% if perms.store.edit_review %}
+                <li><a href="{% url 'pending_reviews' %}">Отзывы</a></li>
+                {% endif %}
                 <!-- <li><a href="#" class="reviewsLink">Отзывы</a></li>
                 <li><a href="#" class="galeryLink">Галерея</a></li> -->
             </ul>

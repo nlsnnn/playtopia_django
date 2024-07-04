@@ -18,26 +18,23 @@
             <hr>
             <a href="{% url 'category' game.category.slug %}">{{ game.category.name }}</a>
         </div>
-        <div class="reviews">
-            {% if reviews %}
-            {% for r in reviews %}
-            <h3>{{ r.user_id }}</h3>
-            <p>{{ r.text }}</p>
-            {% endfor %}
-            {% endif %}
-            <button><a href="{% url 'add_review' game.slug %}">Оставить отзыв</a></button>
-        </div>
-
     </div>
-
-
     {% if perms.users.edit_product and perms.users.delete_product %}
     <div class="admin">
         <a href="{% url 'edit' game.slug %}">Редактировать</a>
         <a href="{% url 'delete' game.slug %}">Удалить</a>
     </div>
     {% endif %}
+</section>
 
-
+<section class="reviews container">
+    <div class="reviews">
+        {% if reviews %}
+        {% for r in reviews %}
+        <h3>{{ r.user }}</h3>
+        <p>{{ r.text }}</p>
+        {% endfor %}
+        {% endif %}
+    </div>
 </section>
 {% endblock %}

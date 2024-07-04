@@ -9,9 +9,15 @@
     <div class="photos">
         {% for p in order.products %}
         {% if p.photo %}
-        <img class="pr-photo" src="{{p.photo.url}}" alt="">
+        <div class="photo">
+            <a href="{{ p.get_absolute_url }}"><img class="pr-photo" src="{{p.photo.url}}" alt=""></a>
+            <a href="{% url 'add_review' p.slug %}">Оставить отзыв</a>
+        </div>
         {% else %}
-        <img class="pr-photo" src="/media/games/default.png" alt="">
+        <div class="photo">
+            <a href="{{ p.get_absolute_url }}"><img class="pr-photo" src="/media/games/default.png" alt=""></a>
+            <a href="{% url 'add_review' p.slug %}">Оставить отзыв</a>
+        </div>
         {% endif %}
         {% endfor %}
     </div>

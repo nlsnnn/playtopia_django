@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="pending-reviews container">
+    {% for r in reviews %}
+    <div class="review r-{{r.id}}">
+        <div class="top">
+            <h2>Game: {{ r.product }}</h2>
+            <h2>User: {{ r.user }}</h2>
+            <h3>Date: {{ r.time_create }}</h3>
+            <h3>Rate: {{ r.rating }}</h3>
+        </div>
+        <div class="bottom">
+            <p>{{ r }}</p>
+        </div>
+        <div class="confirm-reject">
+            <button class="approve-review" data-review-id="{{r.id}}">Подтвердить</button>
+            <button class="reject-review" data-review-id="{{r.id}}">Отклонить</button>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('.approve-review').on('click', function() {
+            let reviewId = $(this).data('review-id');
+            $.ajax({
+                url: '{% url "approve_review" %}',
+                method: 'POST',
+                data: {
+                    'review_id': reviewId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response){
+                    if (response.success) {
+                        $('.r-' + reviewId).remove()
+                    } else {
+                        alert('Ошибка при успешном запросе')
+                    }
+                },
+                error: function() {
+                    alert('Произошла ошибка.')
+                }
+            });
+        });
+        $('.reject-review').on('click', function() {
+            let reviewId = $(this).data('review-id');
+            $.ajax({
+                url: '{% url "reject_review" %}',
+                method: 'POST',
+                data: {
+                    'review_id': reviewId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('.r-'+reviewId).remove()
+                    } else{
+                        alert('Ошибка при успешном запросе')
+                    }
+                },
+                error: function(response){
+                    alert('Произошла ошибка.')
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -2,7 +2,7 @@ from typing import Any
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (TemplateView, ListView, DetailView,
@@ -49,7 +49,7 @@ class ShowGame(DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # product = Product.objects.filter(slug=self.kwargs[self.slug_url_kwarg])
-        context['reviews'] = Review.objects.filter(product_id__slug=self.kwargs[self.slug_url_kwarg])
+        context['reviews'] = Review.posted.filter(product_id__slug=self.kwargs[self.slug_url_kwarg])
         return context
 
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
@@ -89,3 +89,34 @@ class AddReview(LoginRequiredMixin, CreateView):
         slug = self.kwargs.get('slug')
         form.instance.product = get_object_or_404(Product, slug=slug)
         return super().form_valid(form)
+
+
+class PendingReviews(PermissionRequiredMixin, ListView):
+    template_name = 'store/pending_reviews.html'
+    context_object_name = 'reviews'
+    permission_required = 'store.edit_review'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return Review.pending.all()
+
+
+def approve_review(request: HttpRequest):
+    if request.method == 'POST':
+        review_id = request.POST.get('review_id')
+        print(review_id)
+        review: Review = Review.pending.get(pk=review_id)
+        review.status = Review.Status.POSTED
+        review.save()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+
+def reject_review(request: HttpRequest):
+    if request.method == 'POST':
+        review_id = request.POST.get('review_id')
+        review: Review = Review.pending.get(pk=review_id)
+        review.delete()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
