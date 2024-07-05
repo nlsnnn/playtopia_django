@@ -4,12 +4,7 @@
 <section class="game container">
     <div class="left">
         <h2>{{game.name}}</h2>
-        {% if game.photo %}
         <img src="{{ game.photo.url }}">
-        {% else %}
-        <h2>LOL</h2>
-        <img src="/media/games/default.png" alt="">
-        {% endif %}
     </div>
     <div class="right">
         <div class="content">

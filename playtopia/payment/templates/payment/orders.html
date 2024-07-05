@@ -9,11 +9,7 @@
         <div class="products">
             <div class="photos">
                 {% for product in o.products %}
-                {% if product.photo %}
                 <img class="pr-photo" src="{{ product.photo.url }}" alt="{{ product.name }}">
-                {% else %}
-                <img class="pr-photo" src="/media/games/default.png" alt="{{ product.name }}">
-                {% endif %}
                 {% endfor %}
             </div>
         </div>

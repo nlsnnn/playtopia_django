@@ -21,11 +21,7 @@
         <div class="card">
             <a href="{{ p.get_absolute_url }}">
             <div class="image">
-                {% if p.photo %}
                 <img src="{{ p.photo.url }}">
-                {% else %}
-                <img src="/media/games/default.png" alt="">
-                {% endif %}
             </a>
                 <div class="description">
                     <div class="text">

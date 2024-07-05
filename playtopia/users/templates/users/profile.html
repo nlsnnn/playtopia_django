@@ -4,11 +4,7 @@
 <section class="profile container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% if user.photo %}
         <img src="{{ user.photo.url }}" alt="">
-        {% else %}
-        <img src="/media/games/default.png" alt="">
-        {% endif %}
 
         <div class="form-error">{{ form.non_fields_errors }}</div>
         {% for f in form %}

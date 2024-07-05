@@ -50,7 +50,6 @@ class ShowGame(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # product = Product.objects.filter(slug=self.kwargs[self.slug_url_kwarg])
         context['reviews'] = Review.posted.filter(product_id__slug=self.kwargs[self.slug_url_kwarg])
         return context
 

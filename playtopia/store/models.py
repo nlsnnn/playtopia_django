@@ -6,8 +6,8 @@ class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     description = models.TextField(blank=True, verbose_name='Описание')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-    photo = models.ImageField(upload_to='games/', default=None, blank=True,
-                              null=True, verbose_name='Обложка')
+    photo = models.ImageField(upload_to='games/', default='games\\default.png',
+                              verbose_name='Обложка')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(verbose_name='Статус')
@@ -59,8 +59,6 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return self.text
-
-
 
 
 class Cart(models.Model):
