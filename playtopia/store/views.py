@@ -20,6 +20,7 @@ class MainPage(TemplateView):
 class GamesList(ListView):
     template_name = 'store/catalog.html'
     context_object_name = 'products'
+    paginate_by = 12
 
     def get_queryset(self) -> QuerySet[Any]:
         return Product.objects.all()
@@ -28,6 +29,7 @@ class GamesList(ListView):
 class CategoryGamesList(ListView):
     template_name = 'store/catalog.html'
     context_object_name = 'products'
+    paginate_by = 12
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
