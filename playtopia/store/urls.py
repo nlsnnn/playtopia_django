@@ -5,10 +5,10 @@ from . import views
 
 urlpatterns = [
     path('', views.MainPage.as_view(), name='home'),
-    path('catalog/', cache_page(60)(views.GamesList.as_view()), name='catalog'),
-    path('catalog/<slug:category_slug>', cache_page(60 )(views.CategoryGamesList.as_view()), name='category'),
-    path('game/<slug:game_slug>', cache_page(60 * 10)(views.ShowGame.as_view()), name='game'),
-    path('add-game/', cache_page(60 * 60)(views.AddGame.as_view()), name='add_game'),
+    path('catalog/', cache_page(10)(views.GamesList.as_view()), name='catalog'),
+    path('catalog/<slug:category_slug>', cache_page(10)(views.CategoryGamesList.as_view()), name='category'),
+    path('game/<slug:game_slug>', cache_page(10)(views.ShowGame.as_view()), name='game'),
+    path('add-game/', views.AddGame.as_view(), name='add_game'),
     path('edit/<slug:slug>', views.UpdateGame.as_view(), name='edit'),
     path('delete/<slug:slug>', views.DeleteGame.as_view(), name='delete'),
     path('add-review/<slug:slug>', views.AddReview.as_view(), name='add_review'),

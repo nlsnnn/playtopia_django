@@ -6,7 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     description = models.TextField(blank=True, verbose_name='Описание')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-    photo = models.ImageField(upload_to='games/', default='games\\default.png',
+    photo = models.ImageField(upload_to='games/', default='default\\game.png',
                               verbose_name='Обложка')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
